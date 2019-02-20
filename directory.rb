@@ -18,13 +18,13 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(80)
+  puts "-------------".center(80)
 end
 
 def print(students)
   students.each_with_index do |student, number|
-    puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})"
+    puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})".center(80)
   end
 end
 
@@ -53,11 +53,12 @@ def print_12_characters(students)
 end
 
 def print_footer(students)
-puts "Overall, we have #{students.count} great students"
+puts "Overall, we have #{students.count} great students".center(80)
 end
 
 students = input_students
 #nothing happens until we call the methods
+# centered output based on standard Mac terminal size
 print_header
-print_start_with(students)
+print(students)
 print_footer(students)
