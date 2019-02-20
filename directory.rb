@@ -28,6 +28,14 @@ def print(students)
   end
 end
 
+def print_with_loop(students)
+  count = 0
+  until count == students.count
+    puts "#{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    count += 1
+  end
+end
+
 def print_start_with(students)
   students.each_with_index do |student|
     if student[:name].start_with?("D")
@@ -51,5 +59,5 @@ end
 students = input_students
 #nothing happens until we call the methods
 print_header
-print_12_characters(students)
+print_with_loop(students)
 print_footer(students)
