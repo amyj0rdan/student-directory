@@ -23,8 +23,16 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  students.each_with_index do |student, number|
+    puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  end
+end
+
+def print_start_with(students)
+  students.each_with_index do |student, number|
+    if student[:name].start_with?("D")
+      puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
@@ -35,5 +43,5 @@ end
 students = input_students
 #nothing happens until we call the methods
 print_header
-print(students)
+print_start_with(students)
 print_footer(students)
