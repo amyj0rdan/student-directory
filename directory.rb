@@ -8,7 +8,7 @@ def input_students
   # while name is not empty, repeat this code
   while !name.empty? do
     #add the student hash to the array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: :november, hobby: :villainy}
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
@@ -24,14 +24,14 @@ end
 
 def print(students)
   students.each_with_index do |student, number|
-    puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})"
   end
 end
 
 def print_with_loop(students)
   count = 0
   until count == students.count
-    puts "#{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    puts "#{students[count][:name]} (#{students[count][:cohort]} cohort, hobby: #{students[count][:hobby]})"
     count += 1
   end
 end
@@ -39,7 +39,7 @@ end
 def print_start_with(students)
   students.each_with_index do |student|
     if student[:name].start_with?("D")
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})"
     end
   end
 end
@@ -47,7 +47,7 @@ end
 def print_12_characters(students)
   students.each_with_index do |student|
     if student[:name].length < 12
-      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})"
     end
   end
 end
@@ -59,5 +59,5 @@ end
 students = input_students
 #nothing happens until we call the methods
 print_header
-print_with_loop(students)
+print_start_with(students)
 print_footer(students)
