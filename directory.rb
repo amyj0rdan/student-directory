@@ -9,11 +9,14 @@ def input_students
   while !name.empty? do
     # gets the corresponding cohort and sends to symbol
     puts "What cohort are they in?"
-    cohort = gets.chomp.downcase.to_sym
+    cohort = gets.chomp.downcase
     #add the student hash to the array
-    if cohort.empty?
-      cohort = :january
+    unless ["january", "february", "march", "april", "may", "june", "july",
+      "august", "september", "october", "november", "december"].include? cohort
+      puts "I don't recognise that - please try again"
+      cohort = gets.chomp.downcase
     end
+    cohort.to_sym
     students << {name: name, cohort: cohort.capitalize, hobby: :villainy}
     puts "Now we have #{students.count} students"
     # get another name from the user
