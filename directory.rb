@@ -46,8 +46,12 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, number|
-    puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})".center(80)
+  if students.empty?
+    puts "There are no students".center(80)
+  else
+    students.each_with_index do |student, number|
+      puts "#{number + 1}. #{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})".center(80)
+    end
   end
 end
 
@@ -86,7 +90,9 @@ def print_by_cohort(students, cohorts)
 end
 
 def print_footer(students)
-puts "Overall, we have #{students.count} great students".center(80)
+  unless students.empty?
+    puts "Overall, we have #{students.count} great students".center(80)
+  end
 end
 
 students = input_students
