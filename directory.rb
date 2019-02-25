@@ -4,7 +4,7 @@ def input_students
   # create an empty array
   students = []
   # get the first name
-  name = gets.chomp
+  name = gets.delete("\n")
   # while name is not empty, repeat this code
   while !name.empty? do
     # gets the corresponding cohort and sends to symbol
