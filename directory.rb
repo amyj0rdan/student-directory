@@ -7,8 +7,11 @@ def input_students
   name = gets.chomp
   # while name is not empty, repeat this code
   while !name.empty? do
+    # gets the corresponding cohort and sends to symbol
+    puts "What cohort are they in?"
+    cohort = gets.chomp.downcase.to_sym
     #add the student hash to the array
-    students << {name: name, cohort: :november, hobby: :villainy}
+    students << {name: name, cohort: cohort.capitalize, hobby: :villainy}
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
