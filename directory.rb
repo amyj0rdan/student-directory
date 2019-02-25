@@ -26,6 +26,16 @@ def input_students
   students
 end
 
+def cohort_list(students)
+  cohorts = []
+  students.each do |student|
+    unless cohorts.include? student[:cohort]
+      cohorts << student[:cohort]
+    end
+  end
+  cohorts
+end
+
 def print_header
   puts "The students of Villains Academy".center(80)
   puts "-------------".center(80)
@@ -61,13 +71,25 @@ def print_12_characters(students)
   end
 end
 
+def print_by_cohort(students, cohorts)
+  cohorts.each do |month|
+    students.each do |student|
+      if student[:cohort] == month
+        puts "#{student[:name]} (#{student[:cohort]} cohort, hobby: #{student[:hobby]})"
+      end
+    end
+  end
+end
+
 def print_footer(students)
 puts "Overall, we have #{students.count} great students".center(80)
 end
 
 students = input_students
+cohorts = cohort_list(students)
 #nothing happens until we call the methods
 # centered output based on standard Mac terminal size
 print_header
-print(students)
+# print(students)
+print_by_cohort(students, cohorts)
 print_footer(students)
