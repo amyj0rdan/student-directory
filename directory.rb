@@ -18,7 +18,11 @@ def input_students
     end
     cohort.to_sym
     students << {name: name, cohort: cohort.capitalize, hobby: :villainy}
+    if students.count == 1
+      puts "Now we have 1 student"
+    else
     puts "Now we have #{students.count} students"
+    end
     # get another name from the user
     name = gets.chomp
   end
@@ -90,6 +94,5 @@ cohorts = cohort_list(students)
 #nothing happens until we call the methods
 # centered output based on standard Mac terminal size
 print_header
-# print(students)
-print_by_cohort(students, cohorts)
+print(students)
 print_footer(students)
