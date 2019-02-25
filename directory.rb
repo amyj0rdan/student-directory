@@ -11,6 +11,9 @@ def input_students
     puts "What cohort are they in?"
     cohort = gets.chomp.downcase.to_sym
     #add the student hash to the array
+    if cohort.empty?
+      cohort = :january
+    end
     students << {name: name, cohort: cohort.capitalize, hobby: :villainy}
     puts "Now we have #{students.count} students"
     # get another name from the user
