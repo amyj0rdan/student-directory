@@ -3,9 +3,8 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  #removed this option from menu, as added default load if no file provided
-  #puts "4. Load the list from students.csv"
+  puts "3. Save the list"
+  puts "4. Load a list"
   puts "9. Exit"
 end
 
@@ -25,9 +24,11 @@ def process(selection)
     show_students
   when "3"
     save_students
-  # removed this option from menu, as added default load if no file provided
-  #when "4"
-  #  load_students
+  when "4"
+    #need to refactor to put filename request in load_students / separate method
+    print "Open file: "
+    filename = STDIN.gets.chomp
+    load_students(filename)
   when "9"
     exit
   else
@@ -48,21 +49,31 @@ def input_students
 end
 
 def save_students
-  file = File.open("students.csv", "w")
+  print "Save as: "
+  filename = STDIN.gets.chomp
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
-  puts "Students have been saved"
+  puts "Students have been saved to #{filename}"
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    handle_students(name, cohort)
+  if File.exist?(filename)
+    file = File.open(filename, "r")
+    # clear students hash so that when a new file is loaded it is not added to the existing hash
+    @students = []
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      handle_students(name, cohort)
+    end
+    puts "Loaded #{@students.count} students from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    return
   end
   file.close
 end
@@ -73,14 +84,12 @@ end
 
 def try_load_students
   filename = ARGV.first
-  filename = "students.csv" if filename.nil?
+  # removed autoload of students.csv, as users can now input which file to load
+  return if filename.nil?
   if File.exist?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-  else
-    puts "Sorry, #{filename} doesn't exist."
-    exit
   end
+  # deleted else statement as users will be able to input file name now
 end
 
 def show_students
