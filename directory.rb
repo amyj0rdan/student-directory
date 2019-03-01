@@ -1,4 +1,4 @@
-@students = [] # an empty array accessible to all methods
+@students = []
 
 def print_menu
   puts "1. Input the students"
@@ -6,7 +6,7 @@ def print_menu
   puts "3. Save the list to students.csv"
   #removed this option from menu, as added default load if no file provided
   #puts "4. Load the list from students.csv"
-  puts "9. Exit" # 9 because we'll be adding more items
+  puts "9. Exit"
 end
 
 def interactive_menu
@@ -25,8 +25,9 @@ def process(selection)
     show_students
   when "3"
     save_students
-  when "4"
-    load_students
+  # removed this option from menu, as added default load if no file provided
+  #when "4"
+  #  load_students
   when "9"
     exit
   else
@@ -37,28 +38,24 @@ end
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  # get the first name
   name = STDIN.gets.chomp
-  # while the name is not empty, repeat this code
   while !name.empty? do
-    # add the student hash to the array
     handle_students(name, :november)
     puts "Now we have #{@students.count} students"
-    # get another name from the user
     name = STDIN.gets.chomp
   end
+  puts "Students have been inputted"
 end
 
 def save_students
-  # open the file for writing
   file = File.open("students.csv", "w")
-  # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
   file.close
+  puts "Students have been saved"
 end
 
 def load_students(filename = "students.csv")
@@ -75,14 +72,14 @@ def handle_students(name, cohort)
 end
 
 def try_load_students
-  filename = ARGV.first # first argument from the command line
-  filename = "students.csv" if filename.nil? # get out of the method if it isn't given
-  if File.exist?(filename) # if it exists
+  filename = ARGV.first
+  filename = "students.csv" if filename.nil?
+  if File.exist?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
-  else # if it doesn't exists
+  else
     puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
+    exit
   end
 end
 
