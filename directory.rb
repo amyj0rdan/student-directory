@@ -4,11 +4,13 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  #removed this option from menu, as added default load if no file provided
+  #puts "4. Load the list from students.csv"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
 def interactive_menu
+  try_load_students
   loop do
     print_menu
     process(STDIN.gets.chomp)
@@ -74,7 +76,7 @@ end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isn't given
+  filename = "students.csv" if filename.nil? # get out of the method if it isn't given
   if File.exist?(filename) # if it exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -105,5 +107,4 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
-try_load_students
 interactive_menu
