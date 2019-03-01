@@ -1,3 +1,5 @@
+require 'csv'
+
 @students = []
 
 def print_menu
@@ -51,27 +53,22 @@ end
 def save_students
   print "Save as: "
   filename = STDIN.gets.chomp
-  file = File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      csv << [student[:name], student[:cohort]]
     end
   end
   puts "Students have been saved to #{filename}"
 end
 
 def load_students(filename = "students.csv")
+  @students = []
   if File.exist?(filename)
-    file = File.open(filename, "r") do |file|
-    # clear students hash so that when a new file is loaded it is not added to the existing hash
-    @students = []
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      handle_students(name, cohort)
+    CSV.foreach(filename) do |row|
+    name, cohort = row
+    handle_students(name, cohort)
     end
     puts "Loaded #{@students.count} students from #{filename}"
-    end
   else
     puts "Sorry, #{filename} doesn't exist."
     return
