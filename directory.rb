@@ -27,10 +27,8 @@ def process(selection)
   when "3"
     save_students
   when "4"
-    #need to refactor to put filename request in load_students / separate method
-    print "Open file: "
-    filename = STDIN.gets.chomp
-    load_students(filename)
+    open_which_file
+    load_students(@requested_file)
   when "9"
     exit
   else
@@ -61,7 +59,13 @@ def save_students
   puts "Students have been saved to #{filename}"
 end
 
-def load_students(filename = "students.csv")
+def open_which_file
+  #removed from process method
+  print "Open file: "
+  @requested_file = STDIN.gets.chomp
+end
+
+def load_students(filename)
   @students = []
   if File.exist?(filename)
     CSV.foreach(filename) do |row|
@@ -80,13 +84,12 @@ def handle_students(name, cohort)
 end
 
 def try_load_students
-  filename = ARGV.first
-  # removed autoload of students.csv, as users can now input which file to load
+  # default load students.csv if no argument given
+  filename = ARGV.first || "students.csv"
   return if filename.nil?
   if File.exist?(filename)
     load_students(filename)
   end
-  # deleted else statement as users will be able to input file name now
 end
 
 def show_students
