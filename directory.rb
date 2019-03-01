@@ -51,19 +51,19 @@ end
 def save_students
   print "Save as: "
   filename = STDIN.gets.chomp
-  file = File.open(filename, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  file = File.open(filename, "w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "Students have been saved to #{filename}"
 end
 
 def load_students(filename = "students.csv")
   if File.exist?(filename)
-    file = File.open(filename, "r")
+    file = File.open(filename, "r") do |file|
     # clear students hash so that when a new file is loaded it is not added to the existing hash
     @students = []
     file.readlines.each do |line|
@@ -71,11 +71,11 @@ def load_students(filename = "students.csv")
       handle_students(name, cohort)
     end
     puts "Loaded #{@students.count} students from #{filename}"
+    end
   else
     puts "Sorry, #{filename} doesn't exist."
     return
   end
-  file.close
 end
 
 def handle_students(name, cohort)
