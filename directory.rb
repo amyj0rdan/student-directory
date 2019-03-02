@@ -1,13 +1,14 @@
 require 'csv'
 
-@students = []
+# @students instance variable no longer required outside of the methods
+# as it is created immediately on opening the program with try_load_students & load_students
 
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list"
   puts "4. Load a list"
-  puts "9. Exit"
+  puts "5. Exit" # deleted other exercise methods so renumbered Exit as 5
 end
 
 def interactive_menu
@@ -27,9 +28,10 @@ def process(selection)
   when "3"
     save_students
   when "4"
-    open_which_file
-    load_students(@requested_file)
-  when "9"
+    # removed @requested_file as instance variable and
+    # put method that returns filename as argument for load_students
+    load_students(open_which_file)
+  when "5"
     exit
   else
     puts "I don't know what you meant, try again"
@@ -37,8 +39,7 @@ def process(selection)
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "Please enter the names of the students\nTo finish, just hit return twice"
   name = STDIN.gets.chomp
   while !name.empty? do
     handle_students(name, :november)
@@ -60,22 +61,22 @@ def save_students
 end
 
 def open_which_file
-  #removed from process method
+  # removed variable requested_file as no longer required, as method is used as argument
   print "Open file: "
-  @requested_file = STDIN.gets.chomp
+  STDIN.gets.chomp
 end
 
 def load_students(filename)
   @students = []
   if File.exist?(filename)
     CSV.foreach(filename) do |row|
-    name, cohort = row
-    handle_students(name, cohort)
+      name, cohort = row
+      handle_students(name, cohort)
     end
     puts "Loaded #{@students.count} students from #{filename}"
   else
+    # removed unnecessary explicit return to interactive_menu method
     puts "Sorry, #{filename} doesn't exist."
-    return
   end
 end
 
@@ -84,7 +85,6 @@ def handle_students(name, cohort)
 end
 
 def try_load_students
-  # default load students.csv if no argument given
   filename = ARGV.first || "students.csv"
   return if filename.nil?
   if File.exist?(filename)
